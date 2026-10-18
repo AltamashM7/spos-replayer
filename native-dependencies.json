@@ -1,0 +1,8 @@
+{
+  "ffmpeg": {
+    "version": "9.0.2",
+    "directory": "ffmpeg-9.0.2-full_build-shared",
+    "url": "https://github.com/GyanD/codexffmpeg/releases/download/9.0.2/ffmpeg-9.0.2-full_build-shared.7z",
+    "sha256": "4D2060A8B34A940AA47D785142055BB92A63053781E55F2ACE4546EDD519A8F5"
+  }
+}

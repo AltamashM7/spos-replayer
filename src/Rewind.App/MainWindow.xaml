@@ -1,0 +1,125 @@
+<Window x:Class="Rewind.App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Rewind" Width="900" Height="760" MinWidth="800" MinHeight="540"
+        WindowStartupLocation="CenterScreen" Background="{StaticResource CanvasBrush}"
+        FontFamily="Segoe UI" FontSize="14" Foreground="#F2F6FA">
+    <ScrollViewer x:Name="LayoutViewport" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <Border Padding="20" Background="{StaticResource CanvasBrush}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Margin="0,0,0,12">
+            <TextBlock Text="REWIND" Foreground="#D0F278" FontSize="13" FontWeight="Bold" />
+            <TextBlock Text="Keep the moment." FontSize="30" FontWeight="SemiBold" Margin="0,4,0,4" />
+            <TextBlock Text="Instant replay for your screen and system audio."
+                       Foreground="{StaticResource MutedBrush}" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Background="{StaticResource PanelBrush}" CornerRadius="14" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <DockPanel Margin="0,0,0,14">
+                    <Border DockPanel.Dock="Right" Background="#293743" CornerRadius="10" Padding="12,5">
+                        <TextBlock x:Name="RecordingStateLabel" Text="Not recording" Foreground="{StaticResource MutedBrush}" FontSize="12" />
+                    </Border>
+                    <TextBlock Text="Replay preferences" FontSize="19" FontWeight="SemiBold" VerticalAlignment="Center" />
+                </DockPanel>
+                <DockPanel Grid.Row="1" Margin="0,0,0,14">
+                    <TextBlock Text="Capture mode" FontWeight="SemiBold" Width="120" VerticalAlignment="Center" />
+                    <ComboBox x:Name="CaptureModePicker" Width="225" Height="32" DockPanel.Dock="Left"
+                              SelectionChanged="CaptureModeChanged" VerticalContentAlignment="Center"
+                              AutomationProperties.Name="Capture mode">
+                        <ComboBoxItem Content="Window or display" />
+                        <ComboBoxItem Content="Full monitor (no outline)" />
+                    </ComboBox>
+                    <ComboBox x:Name="MonitorPicker" Height="32" Margin="12,0,0,0" Visibility="Collapsed"
+                              SelectionChanged="PreferencesChanged" VerticalContentAlignment="Center"
+                              AutomationProperties.Name="Monitor" />
+                </DockPanel>
+                <Grid Grid.Row="2" Margin="0,0,0,14">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Replay duration" FontWeight="SemiBold" />
+                        <TextBlock Text="How far back a saved clip should reach." FontSize="12"
+                                   Foreground="{StaticResource MutedBrush}" Margin="0,4,18,0" />
+                    </StackPanel>
+                    <ComboBox x:Name="DurationPicker" Grid.Column="1" Width="142" Height="32"
+                              VerticalContentAlignment="Center" SelectionChanged="PreferencesChanged"
+                              AutomationProperties.Name="Replay duration">
+                        <ComboBoxItem Content="15 seconds" Tag="15" />
+                        <ComboBoxItem Content="30 seconds" Tag="30" />
+                        <ComboBoxItem Content="60 seconds" Tag="60" />
+                    </ComboBox>
+                </Grid>
+                <StackPanel Grid.Row="3" Margin="0,0,0,14">
+                <CheckBox x:Name="AudioToggle" Content="Include system audio"
+                          Foreground="#F2F6FA" Checked="PreferencesChanged" Unchecked="PreferencesChanged"
+                           />
+                    <TextBlock Text="Recorded audio: 192 kbps · 6 dB headroom" FontSize="11" Margin="20,4,0,0"
+                               Foreground="{StaticResource MutedBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Row="4">
+                    <TextBlock Text="Save location" FontWeight="SemiBold" Margin="0,0,0,8" />
+                    <DockPanel>
+                        <Button x:Name="ChooseFolderButton" DockPanel.Dock="Right" Content="Choose folder" Click="ChooseFolder" Margin="16,0,0,0" />
+                        <TextBlock x:Name="OutputFolderLabel" TextWrapping="Wrap" VerticalAlignment="Center"
+                                   Foreground="{StaticResource MutedBrush}" />
+                    </DockPanel>
+                </StackPanel>
+                <Grid Grid.Row="5" Margin="0,14,0,0">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Save replay shortcut" FontWeight="SemiBold" />
+                        <TextBlock x:Name="HotkeyStatusLabel" FontSize="12" TextWrapping="Wrap" Margin="0,4,18,0"
+                                   Foreground="{StaticResource MutedBrush}" Text="Minimize to keep Rewind in the system tray." />
+                    </StackPanel>
+                    <ComboBox x:Name="HotkeyPicker" Grid.Column="1" Width="170" Height="32" VerticalAlignment="Top"
+                              VerticalContentAlignment="Center" SelectionChanged="HotkeyChanged" AutomationProperties.Name="Save replay shortcut">
+                        <ComboBoxItem Content="Ctrl + Shift + F8" Tag="119" />
+                        <ComboBoxItem Content="Ctrl + Shift + F9" Tag="120" />
+                        <ComboBoxItem Content="Ctrl + Shift + F10" Tag="121" />
+                    </ComboBox>
+                </Grid>
+                <StackPanel Grid.Row="6" VerticalAlignment="Bottom" Margin="0,14,0,0">
+                    <TextBlock x:Name="BufferStatusLabel" Text="Start buffering to keep recent footage." FontSize="15" Margin="0,0,0,8" />
+                    <TextBlock x:Name="ResourceStatusLabel" Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,0,0,8" />
+                    <TextBlock x:Name="ProfileLabel" Foreground="{StaticResource MutedBrush}" FontSize="12" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Grid Grid.Row="2" Margin="0,16,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <StackPanel Margin="0,0,0,16">
+                <TextBlock x:Name="CaptureStatusLabel" TextWrapping="Wrap" FontSize="12" />
+                <TextBlock x:Name="PreferenceStatusLabel" Foreground="{StaticResource MutedBrush}"
+                           FontSize="12" TextWrapping="Wrap" Margin="0,4,0,0" />
+            </StackPanel>
+            <StackPanel Grid.Row="1" Orientation="Horizontal">
+                <Button x:Name="RecordButton" Content="Start buffering" Click="ToggleBuffering" Margin="0,0,10,0" />
+                <Button x:Name="SaveReplayButton" Content="Save replay" Click="SaveReplay" IsEnabled="False" Margin="0,0,10,0" />
+                <Button x:Name="SavePreferencesButton" Content="Save preferences" Click="SavePreferences" />
+            </StackPanel>
+        </Grid>
+    </Grid>
+    </Border>
+    </ScrollViewer>
+</Window>

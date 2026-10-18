@@ -1,0 +1,13 @@
+.tools/
+artifacts/
+**/bin/
+**/obj/
+**/TestResults/
+.vs/
+.idea/
+*.user
+*.suo
+*.mp4
+*.mkv
+*.wav
+*.dmp
